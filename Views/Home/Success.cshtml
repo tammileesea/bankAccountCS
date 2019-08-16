@@ -1,0 +1,36 @@
+@model SuccessView
+
+<div>
+    <h1>Welcome @Model.User.FirstName!!!</h1>
+    <a asp-action="Logout">Logout</a>
+    <div>
+        <p>Current Balance: $@Math.Round(Model.User.CurrentBalance, 2)</p>
+        <form asp-action="addTrans" asp-controller="Home" method="post">
+            <div class="form-group">
+                <span asp-validation-for="Transaction.Amount"></span><br>
+                <label asp-for="Transaction.Amount">Deposit or Withdraw (or give Tammi ur $hmoney)</label>
+                <input class="form-control" asp-for="Transaction.Amount" type="number"><br>
+            </div>
+            <button class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <hr>
+    <div>
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var trans in @Model.User.Transactions){
+                    <tr>
+                        <td>$@Math.Round(trans.Amount, 2)</td>
+                        <td>@trans.CreatedAt</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
